@@ -40,9 +40,6 @@ function AboutTabContent() {
                         <li>Simulate patient populations to test new treatment personalization algorithms.</li>
                         <li>Develop better tools for connecting patients and doctors without compromising privacy.</li>
                     </ul>
-                    <p className="text-muted-foreground mt-2">
-                        In essence, NeuroGen provides the critical fuel for the engines of discovery, aligning perfectly with the **Detect**, **Connect**, and **Personalize** themes of the NeuraViaHacks hackathon.
-                    </p>
                 </div>
             </CardContent>
         </Card>
