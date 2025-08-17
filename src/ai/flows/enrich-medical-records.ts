@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview This file defines a Genkit flow to enrich synthetic medical records with realistic narrative descriptions using the GPT-5 API.
+ * @fileOverview This file defines a Genkit flow to enrich synthetic medical records with realistic narrative descriptions.
  *
  * - enrichMedicalRecord - A function that takes a synthetic medical record as input and returns an enriched record with narrative descriptions.
  * - EnrichMedicalRecordInput - The input type for the enrichMedicalRecord function.
@@ -20,7 +20,7 @@ export type EnrichMedicalRecordInput = z.infer<typeof EnrichMedicalRecordInputSc
 export type EnrichMedicalRecordOutput = z.infer<typeof EnrichedRecordSchema>;
 const EnrichedRecordSchema = z.record(z.any()).describe('The enriched medical record with narrative descriptions.');
 
-export async function enrichMedicalRecord(input: EnrichMedicalRecordInput): Promise<EnrichMedicalRecordOutput> {
+export async function enrichMedicalRecord(input: EnrichMedicalRecordInput): Promise<EnrichedRecordOutput> {
   return enrichMedicalRecordFlow(input);
 }
 
@@ -33,7 +33,7 @@ const prompt = ai.definePrompt({
   },
   prompt: `You are an expert medical writer. Given the following synthetic medical record for a patient with {{{diseaseType}}}, create a realistic narrative description of the patient's condition, including doctor's notes, therapy recommendations, and other relevant information.
   
-The output should be a JSON object containing the enriched record. The enriched record should include all fields from the original record, plus new fields for the narrative description.
+The output must be a valid JSON object containing the enriched record. The enriched record should include all fields from the original record, plus new fields for the narrative description.
 
 Return ONLY the JSON object of the enriched record.
 
