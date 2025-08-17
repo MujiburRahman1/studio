@@ -82,8 +82,8 @@ export function DataTable({ data }: DataTableProps) {
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
-          {/* Header Row */}
-          <div className="flex items-center px-4 py-3 font-medium text-muted-foreground bg-muted/50 border-b">
+          {/* Header Row - Desktop only */}
+          <div className="hidden md:flex items-center px-4 py-3 font-medium text-muted-foreground bg-muted/50 border-b">
             <div className="w-[25%]">Patient ID</div>
             <div className="w-[30%]">Diagnosis</div>
             <div className="w-[15%]">Age</div>
@@ -94,15 +94,27 @@ export function DataTable({ data }: DataTableProps) {
           <Accordion type="single" collapsible className="w-full">
             {data.map((item, index) => (
               <AccordionItem value={`item-${index}`} key={item?.patientId || index}>
-                 <div className="flex items-center px-4 py-4">
-                    <div className="w-[25%] font-medium">{item?.patientId || 'N/A'}</div>
-                    <div className="w-[30%]">
-                      <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
+                 <div className="flex items-center px-4 py-2 md:py-4 flex-wrap">
+                    {/* Mobile Card Layout */}
+                    <div className="w-full md:w-[25%] mb-2 md:mb-0">
+                        <div className="md:hidden text-xs font-medium text-muted-foreground">Patient ID</div>
+                        <div className="font-medium">{item?.patientId || 'N/A'}</div>
                     </div>
-                    <div className="w-[15%]">{item?.age || 'N/A'}</div>
-                    <div className="w-[15%]">{item?.gender || 'N/A'}</div>
-                    <div className="w-[15%] flex justify-end">
-                      <AccordionTrigger>View</AccordionTrigger>
+                    <div className="w-full md:w-[30%] mb-2 md:mb-0">
+                       <div className="md:hidden text-xs font-medium text-muted-foreground">Diagnosis</div>
+                       <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
+                    </div>
+                    <div className="w-1/2 md:w-[15%] mb-2 md:mb-0">
+                         <div className="md:hidden text-xs font-medium text-muted-foreground">Age</div>
+                        {item?.age || 'N/A'}
+                    </div>
+                    <div className="w-1/2 md:w-[15%] mb-2 md:mb-0">
+                        <div className="md:hidden text-xs font-medium text-muted-foreground">Gender</div>
+                        {item?.gender || 'N/A'}
+                    </div>
+                    {/* Shared Trigger */}
+                    <div className="w-full md:w-[15%] flex justify-end">
+                      <AccordionTrigger className="w-full md:w-auto mt-2 md:mt-0 justify-center">View Details</AccordionTrigger>
                     </div>
                  </div>
                 <AccordionContent>
