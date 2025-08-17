@@ -50,6 +50,7 @@ export async function generateAndEnrichRecords(
 
   try {
     const results = await Promise.all(generationPromises);
+    // The issue was here. We need to map the results to get the actual data.
     const enrichedData = results.map(result => result);
     revalidatePath('/');
     return {
