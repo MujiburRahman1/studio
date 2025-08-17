@@ -86,7 +86,7 @@ export default function GenerationForm({ onFormAction }: GenerationFormProps) {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="recordCount">Number of Records (1-10)</Label>
+            <Label htmlFor="recordCount">Number of Records (1-100)</Label>
             <Input
               id="recordCount"
               name="recordCount"
@@ -94,7 +94,7 @@ export default function GenerationForm({ onFormAction }: GenerationFormProps) {
               placeholder="e.g., 5"
               defaultValue={3}
               min="1"
-              max="10"
+              max="100"
               required
             />
             {state.errors?.recordCount && (

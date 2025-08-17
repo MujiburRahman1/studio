@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 
 const formSchema = z.object({
   diseaseType: z.string().min(1, 'Please select a disease type.'),
-  recordCount: z.coerce.number().int().min(1, 'Please enter a number between 1 and 10.').max(10, 'Please enter a number between 1 and 10.'),
+  recordCount: z.coerce.number().int().min(1, 'Please enter a number between 1 and 100.').max(100, 'Please enter a number between 1 and 100.'),
 });
 
 export type FormState = {
