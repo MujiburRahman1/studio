@@ -1,7 +1,6 @@
 'use server';
 
 import { z } from 'zod';
-import { enrichMedicalRecord } from '@/ai/flows/enrich-medical-records';
 import { createSyntheticRecord } from '@/lib/synthetic-data';
 import { revalidatePath } from 'next/cache';
 
@@ -36,28 +35,24 @@ export async function generateAndEnrichRecords(
   }
 
   const { diseaseType, recordCount } = validatedFields.data;
-  const enrichedData = [];
+  const generatedData = [];
 
   try {
     for (let i = 0; i < recordCount; i++) {
       const syntheticRecord = createSyntheticRecord(diseaseType, Date.now() + i);
-      const enrichedRecord = await enrichMedicalRecord({
-        record: syntheticRecord,
-        diseaseType,
-      });
-      enrichedData.push(enrichedRecord);
+      generatedData.push(syntheticRecord);
     }
     
     revalidatePath('/');
     return {
-      message: 'Successfully generated and enriched records.',
-      data: enrichedData,
+      message: 'Successfully generated records.',
+      data: generatedData,
     };
   } catch (error) {
-    console.error('Error enriching medical records:', error);
+    console.error('Error generating medical records:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
     return {
-      message: `An error occurred while enriching records: ${errorMessage}`,
+      message: `An error occurred while generating records: ${errorMessage}`,
     };
   }
 }
