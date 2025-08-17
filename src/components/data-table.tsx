@@ -77,48 +77,48 @@ export function DataTable({ data }: DataTableProps) {
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[150px]">Patient ID</TableHead>
-                <TableHead>Diagnosis</TableHead>
-                <TableHead>Age</TableHead>
-                <TableHead>Gender</TableHead>
-                <TableHead className="w-[100px] text-right">Details</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data.map((item, index) => (
-                <Accordion key={item?.patientId || index} type="single" collapsible asChild>
-                   <AccordionItem value={`item-${index}`} asChild>
+          <Accordion type="single" collapsible className="w-full">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[150px]">Patient ID</TableHead>
+                  <TableHead>Diagnosis</TableHead>
+                  <TableHead>Age</TableHead>
+                  <TableHead>Gender</TableHead>
+                  <TableHead className="w-[100px] text-right">Details</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data.map((item, index) => (
+                  <AccordionItem value={`item-${index}`} key={item?.patientId || index} asChild>
                     <>
-                        <TableRow>
-                            <TableCell className="font-medium">{item?.patientId || 'N/A'}</TableCell>
-                            <TableCell>
-                                <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
-                            </TableCell>
-                            <TableCell>{item?.age || 'N/A'}</TableCell>
-                            <TableCell>{item?.gender || 'N/A'}</TableCell>
-                            <TableCell className="text-right">
-                                <AccordionTrigger>View</AccordionTrigger>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell colSpan={5} className="p-0">
-                                <AccordionContent>
-                                    <div className="p-6 bg-muted/50">
-                                        <h4 className="font-semibold mb-4 text-base">Record Details:</h4>
-                                        <DetailsView data={item} />
-                                    </div>
-                                </AccordionContent>
-                            </TableCell>
-                        </TableRow>
+                      <TableRow>
+                          <TableCell className="font-medium">{item?.patientId || 'N/A'}</TableCell>
+                          <TableCell>
+                              <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
+                          </TableCell>
+                          <TableCell>{item?.age || 'N/A'}</TableCell>
+                          <TableCell>{item?.gender || 'N/A'}</TableCell>
+                          <TableCell className="text-right">
+                              <AccordionTrigger>View</AccordionTrigger>
+                          </TableCell>
+                      </TableRow>
+                      <TableRow>
+                          <TableCell colSpan={5} className="p-0">
+                              <AccordionContent>
+                                  <div className="p-6 bg-muted/50">
+                                      <h4 className="font-semibold mb-4 text-base">Record Details:</h4>
+                                      <DetailsView data={item} />
+                                  </div>
+                              </AccordionContent>
+                          </TableCell>
+                      </TableRow>
                     </>
-                   </AccordionItem>
-                </Accordion>
-              ))}
-            </TableBody>
-          </Table>
+                  </AccordionItem>
+                ))}
+              </TableBody>
+            </Table>
+          </Accordion>
         </div>
       </CardContent>
     </Card>
