@@ -22,7 +22,7 @@ interface DataTableProps {
 
 // A new component to render the object tree in a readable format
 const DetailsView = ({ data }: { data: object }) => {
-  const renderValue = (value: any) => {
+  const renderValue = (key: string, value: any) => {
     if (typeof value === 'boolean') {
       return (
         <Badge variant={value ? 'secondary' : 'outline'} className={value ? "text-green-700" : "text-red-700"}>
@@ -60,7 +60,7 @@ const DetailsView = ({ data }: { data: object }) => {
             <span className="font-semibold capitalize text-muted-foreground">
               {key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}:
             </span>
-            {renderValue(value)}
+            {renderValue(key, value)}
           </li>
         );
       })}
