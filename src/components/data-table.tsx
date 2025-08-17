@@ -30,21 +30,34 @@ const DetailsView = ({ data }: { data: object }) => {
         </Badge>
       );
     }
+    if (key === 'doctor_notes') {
+        return <p className="text-foreground whitespace-pre-wrap">{String(value)}</p>;
+    }
     if (typeof value === 'object' && value !== null) {
       return <DetailsView data={value} />;
     }
     return <span className="text-foreground">{String(value)}</span>;
   };
 
+  const entries = Object.entries(data);
+  // Move doctor_notes to the end
+  const notesIndex = entries.findIndex(([key]) => key === 'doctor_notes');
+  let notesEntry;
+  if (notesIndex > -1) {
+    notesEntry = entries.splice(notesIndex, 1)[0];
+    entries.push(notesEntry);
+  }
+
+
   return (
     <ul className="space-y-2 pl-4">
-      {Object.entries(data).map(([key, value]) => {
+      {entries.map(([key, value]) => {
         // Don't display patientId and diagnosis again as they are already in the main table
         if (key === 'patientId' || key === 'diagnosis' || key === 'age' || key === 'gender') return null;
 
         return (
-          <li key={key} className="flex items-start">
-            <span className="font-semibold capitalize min-w-[180px] text-muted-foreground">
+          <li key={key} className="flex flex-col items-start gap-1">
+            <span className="font-semibold capitalize text-muted-foreground">
               {key.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ')}:
             </span>
             {renderValue(value)}
@@ -90,8 +103,7 @@ export function DataTable({ data }: DataTableProps) {
               </TableHeader>
               <TableBody>
                 {data.map((item, index) => (
-                  <AccordionItem value={`item-${index}`} key={item?.patientId || index} asChild>
-                    <>
+                  <AccordionItem value={`item-${index}`} key={item?.patientId || index}>
                       <TableRow>
                           <TableCell className="font-medium">{item?.patientId || 'N/A'}</TableCell>
                           <TableCell>
@@ -113,7 +125,6 @@ export function DataTable({ data }: DataTableProps) {
                               </AccordionContent>
                           </TableCell>
                       </TableRow>
-                    </>
                   </AccordionItem>
                 ))}
               </TableBody>
