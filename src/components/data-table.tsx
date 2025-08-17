@@ -101,33 +101,33 @@ export function DataTable({ data }: DataTableProps) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data.map((item, index) => (
-                    <Accordion type="single" collapsible className="w-full" asChild key={item?.patientId || index}>
-                        <AccordionItem value={`item-${index}`}>
-                            <TableRow>
-                                <TableCell className="font-medium">{item?.patientId || 'N/A'}</TableCell>
-                                <TableCell>
-                                    <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
-                                </TableCell>
-                                <TableCell>{item?.age || 'N/A'}</TableCell>
-                                <TableCell>{item?.gender || 'N/A'}</TableCell>
-                                <TableCell className="text-right">
-                                    <AccordionTrigger>View</AccordionTrigger>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell colSpan={5} className="p-0">
-                                    <AccordionContent>
-                                        <div className="p-6 bg-muted/50">
-                                            <h4 className="font-semibold mb-4 text-base">Record Details:</h4>
-                                            <DetailsView data={item} />
-                                        </div>
-                                    </AccordionContent>
-                                </TableCell>
-                            </TableRow>
-                        </AccordionItem>
-                    </Accordion>
-                ))}
+                <Accordion type="single" collapsible className="w-full">
+                  {data.map((item, index) => (
+                    <AccordionItem value={`item-${index}`} key={item?.patientId || index}>
+                      <TableRow>
+                          <TableCell className="font-medium">{item?.patientId || 'N/A'}</TableCell>
+                          <TableCell>
+                              <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
+                          </TableCell>
+                          <TableCell>{item?.age || 'N/A'}</TableCell>
+                          <TableCell>{item?.gender || 'N/A'}</TableCell>
+                          <TableCell className="text-right">
+                              <AccordionTrigger>View</AccordionTrigger>
+                          </TableCell>
+                      </TableRow>
+                      <TableRow>
+                          <TableCell colSpan={5} className="p-0">
+                              <AccordionContent>
+                                  <div className="p-6 bg-muted/50">
+                                      <h4 className="font-semibold mb-4 text-base">Record Details:</h4>
+                                      <DetailsView data={item} />
+                                  </div>
+                              </AccordionContent>
+                          </TableCell>
+                      </TableRow>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
               </TableBody>
             </Table>
         </div>
