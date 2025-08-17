@@ -17,12 +17,8 @@ const EnrichMedicalRecordInputSchema = z.object({
 });
 export type EnrichMedicalRecordInput = z.infer<typeof EnrichMedicalRecordInputSchema>;
 
+export type EnrichMedicalRecordOutput = z.infer<typeof EnrichedRecordSchema>;
 const EnrichedRecordSchema = z.record(z.any()).describe('The enriched medical record with narrative descriptions.');
-
-const EnrichMedicalRecordOutputSchema = z.object({
-  enrichedRecord: EnrichedRecordSchema,
-});
-export type EnrichMedicalRecordOutput = z.infer<typeof EnrichMedicalRecordOutputSchema>;
 
 export async function enrichMedicalRecord(input: EnrichMedicalRecordInput): Promise<EnrichMedicalRecordOutput> {
   return enrichMedicalRecordFlow(input);
@@ -31,20 +27,23 @@ export async function enrichMedicalRecord(input: EnrichMedicalRecordInput): Prom
 const prompt = ai.definePrompt({
   name: 'enrichMedicalRecordPrompt',
   input: {schema: EnrichMedicalRecordInputSchema},
-  output: {schema: EnrichMedicalRecordOutputSchema},
+  output: {
+    format: 'json',
+    schema: EnrichedRecordSchema
+  },
   prompt: `You are an expert medical writer. Given the following synthetic medical record for a patient with {{{diseaseType}}}, create a realistic narrative description of the patient's condition, including doctor's notes, therapy recommendations, and other relevant information.
   
-The output should be a JSON object containing the enriched record under the key "enrichedRecord". The enriched record should include all fields from the original record, plus new fields for the narrative description.
+The output should be a JSON object containing the enriched record. The enriched record should include all fields from the original record, plus new fields for the narrative description.
 
 Medical Record:
-{{{record}}}`,
+{{{json record}}}`,
 });
 
 const enrichMedicalRecordFlow = ai.defineFlow(
   {
     name: 'enrichMedicalRecordFlow',
     inputSchema: EnrichMedicalRecordInputSchema,
-    outputSchema: EnrichMedicalRecordOutputSchema,
+    outputSchema: EnrichedRecordSchema,
   },
   async input => {
     const {output} = await prompt(input);
