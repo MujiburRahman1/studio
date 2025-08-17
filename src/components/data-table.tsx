@@ -103,7 +103,8 @@ export function DataTable({ data }: DataTableProps) {
               </TableHeader>
               <TableBody>
                 {data.map((item, index) => (
-                  <AccordionItem value={`item-${index}`} key={item?.patientId || index}>
+                  <AccordionItem value={`item-${index}`} key={item?.patientId || index} asChild>
+                    <>
                       <TableRow>
                           <TableCell className="font-medium">{item?.patientId || 'N/A'}</TableCell>
                           <TableCell>
@@ -125,6 +126,7 @@ export function DataTable({ data }: DataTableProps) {
                               </AccordionContent>
                           </TableCell>
                       </TableRow>
+                    </>
                   </AccordionItem>
                 ))}
               </TableBody>
