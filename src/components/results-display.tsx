@@ -8,6 +8,8 @@ import { BrainCircuit, Info, LineChart, Table } from 'lucide-react';
 
 interface ResultsDisplayProps {
   data: any[];
+  activeTab: string;
+  onTabChange: (value: string) => void;
 }
 
 function AboutTabContent() {
@@ -46,26 +48,32 @@ function AboutTabContent() {
     )
 }
 
-export default function ResultsDisplay({ data }: ResultsDisplayProps) {
-  if (data.length === 0) {
-    return (
-      <Tabs defaultValue="about" className="w-full">
-         <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="data-table" disabled>
-              <Table className="mr-2" />
-              Generated Data
-            </TabsTrigger>
-            <TabsTrigger value="data-insights" disabled>
-              <LineChart className="mr-2" />
-              Data Insights
-            </TabsTrigger>
-            <TabsTrigger value="about">
-              <Info className="mr-2" />
-              About
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="data-table">
-            <Card className="flex flex-col items-center justify-center text-center p-8 border-dashed h-full">
+export default function ResultsDisplay({ data, activeTab, onTabChange }: ResultsDisplayProps) {
+  const isDataAvailable = data.length > 0;
+  
+  const currentTab = isDataAvailable ? activeTab : 'about';
+
+  return (
+    <Tabs value={currentTab} onValueChange={onTabChange} className="w-full">
+      <TabsList className="grid w-full grid-cols-3">
+        <TabsTrigger value="data-table" disabled={!isDataAvailable}>
+          <Table className="mr-2" />
+          Generated Data
+        </TabsTrigger>
+        <TabsTrigger value="data-insights" disabled={!isDataAvailable}>
+          <LineChart className="mr-2" />
+          Data Insights
+        </TabsTrigger>
+        <TabsTrigger value="about">
+          <Info className="mr-2" />
+          About
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="data-table">
+         {isDataAvailable ? (
+            <DataTable data={data} />
+         ) : (
+            <Card className="flex flex-col items-center justify-center text-center p-8 border-dashed h-full mt-2">
                <CardHeader>
                   <div className="mx-auto bg-secondary p-4 rounded-full">
                       <BrainCircuit className="h-12 w-12 text-primary" />
@@ -76,32 +84,7 @@ export default function ResultsDisplay({ data }: ResultsDisplayProps) {
                   </CardDescription>
                </CardHeader>
             </Card>
-          </TabsContent>
-           <TabsContent value="about">
-              <AboutTabContent />
-           </TabsContent>
-      </Tabs>
-    );
-  }
-
-  return (
-    <Tabs defaultValue="data-table" className="w-full">
-      <TabsList className="grid w-full grid-cols-3">
-        <TabsTrigger value="data-table">
-          <Table className="mr-2" />
-          Generated Data
-        </TabsTrigger>
-        <TabsTrigger value="data-insights">
-          <LineChart className="mr-2" />
-          Data Insights
-        </TabsTrigger>
-        <TabsTrigger value="about">
-            <Info className="mr-2" />
-            About
-        </TabsTrigger>
-      </TabsList>
-      <TabsContent value="data-table">
-        <DataTable data={data} />
+         )}
       </TabsContent>
       <TabsContent value="data-insights">
         <DataCharts data={data} />
@@ -112,5 +95,3 @@ export default function ResultsDisplay({ data }: ResultsDisplayProps) {
     </Tabs>
   );
 }
-
-    

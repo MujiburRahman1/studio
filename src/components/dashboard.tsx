@@ -16,11 +16,13 @@ import { BrainCircuit } from 'lucide-react';
 
 export default function Dashboard() {
   const [allGeneratedData, setAllGeneratedData] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState('about');
 
   const handleFormAction = (state: FormState) => {
     if (state.data) {
       // Prepend new data to the existing data
       setAllGeneratedData(prevData => [...state.data, ...prevData]);
+      setActiveTab('data-table'); // Switch to data table tab on new data
     }
   };
 
@@ -53,7 +55,7 @@ export default function Dashboard() {
                <SidebarTrigger className="md:hidden"/>
             </header>
             <main className="flex-1 overflow-y-auto p-4 md:p-6">
-              <ResultsDisplay data={allGeneratedData} />
+              <ResultsDisplay data={allGeneratedData} activeTab={activeTab} onTabChange={setActiveTab} />
             </main>
           </SidebarInset>
         </div>
