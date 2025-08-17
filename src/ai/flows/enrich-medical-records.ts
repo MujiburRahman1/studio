@@ -17,8 +17,10 @@ const EnrichMedicalRecordInputSchema = z.object({
 });
 export type EnrichMedicalRecordInput = z.infer<typeof EnrichMedicalRecordInputSchema>;
 
-export type EnrichMedicalRecordOutput = z.infer<typeof EnrichedRecordSchema>;
+
 const EnrichedRecordSchema = z.record(z.any()).describe('The enriched medical record with narrative descriptions.');
+export type EnrichMedicalRecordOutput = z.infer<typeof EnrichedRecordSchema>;
+
 
 export async function enrichMedicalRecord(input: EnrichMedicalRecordInput): Promise<EnrichedRecordOutput> {
   return enrichMedicalRecordFlow(input);
@@ -29,13 +31,13 @@ const prompt = ai.definePrompt({
   input: {schema: EnrichMedicalRecordInputSchema},
   output: {
     format: 'json',
-    schema: EnrichedRecordSchema
+    schema: EnrichedRecordSchema,
   },
-  prompt: `You are an expert medical writer. Given the following synthetic medical record for a patient with {{{diseaseType}}}, create a realistic narrative description of the patient's condition, including doctor's notes, therapy recommendations, and other relevant information.
-  
-The output must be a valid JSON object containing the enriched record. The enriched record should include all fields from the original record, plus new fields for the narrative description.
+  prompt: `You are an expert medical writer. Given the following synthetic medical record for a patient with {{{diseaseType}}}, create a realistic narrative description of the patient's condition.
 
-Return ONLY the JSON object of the enriched record.
+The output must be a valid JSON object of the enriched record. This means you must return the original record fields, and add new fields for the narrative descriptions, such as doctor's notes and therapy recommendations.
+
+Return ONLY the JSON object.
 
 Medical Record:
 {{{json record}}}`,
