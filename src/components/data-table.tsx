@@ -95,7 +95,7 @@ export function DataTable({ data }: DataTableProps) {
             {data.map((item, index) => (
               <AccordionItem value={`item-${index}`} key={item?.patientId || index}>
                  <div className="flex items-center px-4 py-2 md:py-4 flex-wrap">
-                    {/* Mobile Card Layout */}
+                    {/* Responsive Card Layout */}
                     <div className="w-full md:w-[25%] mb-2 md:mb-0">
                         <div className="md:hidden text-xs font-medium text-muted-foreground">Patient ID</div>
                         <div className="font-medium">{item?.patientId || 'N/A'}</div>
