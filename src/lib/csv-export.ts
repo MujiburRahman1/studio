@@ -17,7 +17,7 @@ export function exportToCsv(data: any[], filename: string) {
     return;
   }
 
-  const flattenedData = data.map(row => flattenObject(row.enrichedRecord || row));
+  const flattenedData = data.map(row => flattenObject(row));
 
   const headers = Object.keys(flattenedData[0]);
   const csvRows = [

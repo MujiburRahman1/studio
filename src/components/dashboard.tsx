@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { FormState } from '@/app/actions';
 import {
   SidebarProvider,
@@ -9,9 +9,6 @@ import {
   SidebarHeader,
   SidebarInset,
   SidebarTrigger,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
 } from '@/components/ui/sidebar';
 import GenerationForm from '@/components/generation-form';
 import ResultsDisplay from '@/components/results-display';
@@ -22,6 +19,7 @@ export default function Dashboard() {
 
   const handleFormAction = (state: FormState) => {
     if (state.data) {
+      // Prepend new data to the existing data
       setAllGeneratedData(prevData => [...state.data, ...prevData]);
     }
   };

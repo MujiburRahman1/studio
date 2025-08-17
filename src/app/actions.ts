@@ -50,7 +50,7 @@ export async function generateAndEnrichRecords(
 
   try {
     const results = await Promise.all(generationPromises);
-    const enrichedData = results.map(result => result); // The flow already returns the object with enrichedRecord
+    const enrichedData = results.map(result => result.enrichedRecord);
     revalidatePath('/');
     return {
       message: 'Successfully generated and enriched records.',

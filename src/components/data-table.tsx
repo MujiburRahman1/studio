@@ -53,16 +53,16 @@ export function DataTable({ data }: DataTableProps) {
             </TableHeader>
             <TableBody>
               {data.map((item, index) => (
-                <Accordion key={item.enrichedRecord?.patientId || index} type="single" collapsible asChild>
+                <Accordion key={item?.patientId || index} type="single" collapsible asChild>
                    <AccordionItem value={`item-${index}`} asChild>
                     <>
                         <TableRow>
-                            <TableCell className="font-medium">{item.enrichedRecord?.patientId || 'N/A'}</TableCell>
+                            <TableCell className="font-medium">{item?.patientId || 'N/A'}</TableCell>
                             <TableCell>
-                                <Badge variant="secondary">{item.enrichedRecord?.diagnosis || 'N/A'}</Badge>
+                                <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
                             </TableCell>
-                            <TableCell>{item.enrichedRecord?.age || 'N/A'}</TableCell>
-                            <TableCell>{item.enrichedRecord?.gender || 'N/A'}</TableCell>
+                            <TableCell>{item?.age || 'N/A'}</TableCell>
+                            <TableCell>{item?.gender || 'N/A'}</TableCell>
                             <TableCell>
                                 <AccordionTrigger>View</AccordionTrigger>
                             </TableCell>
@@ -73,7 +73,7 @@ export function DataTable({ data }: DataTableProps) {
                                     <div className="p-4 bg-muted">
                                         <h4 className="font-semibold mb-2">Enriched Record Details:</h4>
                                         <pre className="bg-background p-4 rounded-md text-xs overflow-x-auto">
-                                            {JSON.stringify(item.enrichedRecord, null, 2)}
+                                            {JSON.stringify(item, null, 2)}
                                         </pre>
                                     </div>
                                 </AccordionContent>

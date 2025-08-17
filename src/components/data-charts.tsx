@@ -24,7 +24,7 @@ export function DataCharts({ data }: DataChartsProps) {
       '80+': 0,
     };
     data.forEach(item => {
-      const age = item.enrichedRecord?.age;
+      const age = item?.age;
       if (age >= 20 && age <= 29) ageGroups['20-29']++;
       else if (age >= 30 && age <= 39) ageGroups['30-39']++;
       else if (age >= 40 && age <= 49) ageGroups['40-49']++;
@@ -39,7 +39,7 @@ export function DataCharts({ data }: DataChartsProps) {
   const diseaseBreakdown = React.useMemo(() => {
     const diseaseCounts: { [key: string]: number } = {};
     data.forEach(item => {
-      const diagnosis = item.enrichedRecord?.diagnosis;
+      const diagnosis = item?.diagnosis;
       if (diagnosis) {
         diseaseCounts[diagnosis] = (diseaseCounts[diagnosis] || 0) + 1;
       }
@@ -50,7 +50,7 @@ export function DataCharts({ data }: DataChartsProps) {
   const genderBreakdown = React.useMemo(() => {
     const genderCounts: { [key: string]: number } = {};
     data.forEach(item => {
-      const gender = item.enrichedRecord?.gender;
+      const gender = item?.gender;
       if (gender) {
         genderCounts[gender] = (genderCounts[gender] || 0) + 1;
       }
