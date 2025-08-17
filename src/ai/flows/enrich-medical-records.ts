@@ -35,6 +35,8 @@ const prompt = ai.definePrompt({
   
 The output should be a JSON object containing the enriched record. The enriched record should include all fields from the original record, plus new fields for the narrative description.
 
+Return ONLY the JSON object of the enriched record.
+
 Medical Record:
 {{{json record}}}`,
 });
