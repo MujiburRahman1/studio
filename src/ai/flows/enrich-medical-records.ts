@@ -17,8 +17,10 @@ const EnrichMedicalRecordInputSchema = z.object({
 });
 export type EnrichMedicalRecordInput = z.infer<typeof EnrichMedicalRecordInputSchema>;
 
+const EnrichedRecordSchema = z.record(z.any()).describe('The enriched medical record with narrative descriptions.');
+
 const EnrichMedicalRecordOutputSchema = z.object({
-  enrichedRecord: z.record(z.any()).describe('The enriched medical record with narrative descriptions.'),
+  enrichedRecord: EnrichedRecordSchema,
 });
 export type EnrichMedicalRecordOutput = z.infer<typeof EnrichMedicalRecordOutputSchema>;
 
@@ -30,7 +32,9 @@ const prompt = ai.definePrompt({
   name: 'enrichMedicalRecordPrompt',
   input: {schema: EnrichMedicalRecordInputSchema},
   output: {schema: EnrichMedicalRecordOutputSchema},
-  prompt: `You are an expert medical writer. Given the following synthetic medical record for a patient with {{{diseaseType}}}, create a realistic narrative description of the patient's condition, including doctor's notes, therapy recommendations, and other relevant information.  The output should be a JSON object containing the original record, and the new narrative description.
+  prompt: `You are an expert medical writer. Given the following synthetic medical record for a patient with {{{diseaseType}}}, create a realistic narrative description of the patient's condition, including doctor's notes, therapy recommendations, and other relevant information.
+  
+The output should be a JSON object containing the enriched record under the key "enrichedRecord". The enriched record should include all fields from the original record, plus new fields for the narrative description.
 
 Medical Record:
 {{{record}}}`,
@@ -44,6 +48,9 @@ const enrichMedicalRecordFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    if (!output) {
+      throw new Error('No output from enrichMedicalRecordPrompt');
+    }
+    return output;
   }
 );
