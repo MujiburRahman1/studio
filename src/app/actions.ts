@@ -36,22 +36,18 @@ export async function generateAndEnrichRecords(
   }
 
   const { diseaseType, recordCount } = validatedFields.data;
-  const generationPromises = [];
-
-  for (let i = 0; i < recordCount; i++) {
-    const syntheticRecord = createSyntheticRecord(diseaseType, Date.now() + i);
-    generationPromises.push(
-      enrichMedicalRecord({
-        record: syntheticRecord,
-        diseaseType,
-      })
-    );
-  }
+  const enrichedData = [];
 
   try {
-    const results = await Promise.all(generationPromises);
-    // The issue was here. We need to map the results to get the actual data.
-    const enrichedData = results.map(result => result);
+    for (let i = 0; i < recordCount; i++) {
+      const syntheticRecord = createSyntheticRecord(diseaseType, Date.now() + i);
+      const enrichedRecord = await enrichMedicalRecord({
+        record: syntheticRecord,
+        diseaseType,
+      });
+      enrichedData.push(enrichedRecord);
+    }
+    
     revalidatePath('/');
     return {
       message: 'Successfully generated and enriched records.',
@@ -59,8 +55,9 @@ export async function generateAndEnrichRecords(
     };
   } catch (error) {
     console.error('Error enriching medical records:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
     return {
-      message: 'An error occurred while enriching records. Please try again.',
+      message: `An error occurred while enriching records: ${errorMessage}`,
     };
   }
 }
