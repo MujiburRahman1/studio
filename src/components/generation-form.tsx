@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { generateAndEnrichRecords, type FormState } from '@/app/actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,7 +43,7 @@ function SubmitButton() {
 
 export default function GenerationForm({ onFormAction }: GenerationFormProps) {
   const initialState: FormState = { message: '', errors: {} };
-  const [state, formAction] = useFormState(generateAndEnrichRecords, initialState);
+  const [state, formAction] = useActionState(generateAndEnrichRecords, initialState);
   const { toast } = useToast();
 
   useEffect(() => {
