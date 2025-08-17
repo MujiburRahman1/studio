@@ -1,14 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from './ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { Badge } from './ui/badge';
@@ -90,46 +82,38 @@ export function DataTable({ data }: DataTableProps) {
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[150px]">Patient ID</TableHead>
-                  <TableHead>Diagnosis</TableHead>
-                  <TableHead>Age</TableHead>
-                  <TableHead>Gender</TableHead>
-                  <TableHead className="w-[100px] text-right">Details</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <Accordion type="single" collapsible className="w-full">
-                  {data.map((item, index) => (
-                    <AccordionItem value={`item-${index}`} key={item?.patientId || index}>
-                      <TableRow>
-                          <TableCell className="font-medium">{item?.patientId || 'N/A'}</TableCell>
-                          <TableCell>
-                              <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
-                          </TableCell>
-                          <TableCell>{item?.age || 'N/A'}</TableCell>
-                          <TableCell>{item?.gender || 'N/A'}</TableCell>
-                          <TableCell className="text-right">
-                              <AccordionTrigger>View</AccordionTrigger>
-                          </TableCell>
-                      </TableRow>
-                      <TableRow>
-                          <TableCell colSpan={5} className="p-0">
-                              <AccordionContent>
-                                  <div className="p-6 bg-muted/50">
-                                      <h4 className="font-semibold mb-4 text-base">Record Details:</h4>
-                                      <DetailsView data={item} />
-                                  </div>
-                              </AccordionContent>
-                          </TableCell>
-                      </TableRow>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </TableBody>
-            </Table>
+          {/* Header Row */}
+          <div className="flex items-center px-4 py-3 font-medium text-muted-foreground bg-muted/50 border-b">
+            <div className="w-[25%]">Patient ID</div>
+            <div className="w-[30%]">Diagnosis</div>
+            <div className="w-[15%]">Age</div>
+            <div className="w-[15%]">Gender</div>
+            <div className="w-[15%] text-right">Details</div>
+          </div>
+          {/* Data Rows */}
+          <Accordion type="single" collapsible className="w-full">
+            {data.map((item, index) => (
+              <AccordionItem value={`item-${index}`} key={item?.patientId || index}>
+                 <div className="flex items-center px-4 py-4">
+                    <div className="w-[25%] font-medium">{item?.patientId || 'N/A'}</div>
+                    <div className="w-[30%]">
+                      <Badge variant="secondary">{item?.diagnosis || 'N/A'}</Badge>
+                    </div>
+                    <div className="w-[15%]">{item?.age || 'N/A'}</div>
+                    <div className="w-[15%]">{item?.gender || 'N/A'}</div>
+                    <div className="w-[15%] flex justify-end">
+                      <AccordionTrigger>View</AccordionTrigger>
+                    </div>
+                 </div>
+                <AccordionContent>
+                    <div className="p-6 bg-muted/50 border-t">
+                        <h4 className="font-semibold mb-4 text-base">Record Details:</h4>
+                        <DetailsView data={item} />
+                    </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </CardContent>
     </Card>
